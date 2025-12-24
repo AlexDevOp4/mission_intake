@@ -1,0 +1,54 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile
+    env_file:
+      - .env.local
+    volumes:
+      - .:/app
+    working_dir: /app/backend
+    ports:
+      - "8000:8000"
+    command: sleep infinity
+  db:
+    image: postgres:16
+    env_file:
+      - .env.local
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  redis:
+    image: redis:alpine
+    restart: always
+    healthcheck:
+      # Checks if Redis is ready to accept connections
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+  worker:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile
+    env_file:
+      - .env.local
+    volumes:
+      - .:/app
+    working_dir: /app/backend
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: celery -A mission_intake worker --loglevel=info
+volumes:
+  postgres_data:
