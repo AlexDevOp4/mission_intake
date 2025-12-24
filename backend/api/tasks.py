@@ -25,9 +25,10 @@ def audit_log(event_type, message, request_id, source):
 def index_audit_log(audit_log_id):
     from api.models import AuditLog
 
+    # Made audit_log the id of the Audit so there will be no duplicate, stable and deterministic.
     audit_log = AuditLog.objects.get(id=audit_log_id)
     SOLR_URL = os.getenv("SOLR_URL", "http://solr:8983/solr/audit_logs")
-
+    print(f"Indexing audit_log_id={audit_log_id} into Solr")
     document = {
         "id": audit_log_id,
         "event_type": audit_log.event_type,

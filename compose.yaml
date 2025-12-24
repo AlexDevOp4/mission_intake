@@ -52,6 +52,8 @@ services:
     command: celery -A mission_intake worker --loglevel=info
   solr:
     image: solr:9-slim
+    env_file:
+      - .env.local
     ports:
       - "8983:8983"
     volumes:
