@@ -8,7 +8,7 @@ def log_task():
     print(f"Task logged! id {my_uuid}")
     
 @shared_task(name="api.tasks.audit_log")
-def audit_log(event_type, message):
+def audit_log(event_type, message, request_id, source):
     from api.models import AuditLog
-    AuditLog.objects.create(event_type=event_type, message=message)
+    AuditLog.objects.create(event_type=event_type, message=message, request_id=request_id, source=source)
     

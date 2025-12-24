@@ -6,3 +6,5 @@ class AuditLog(models.Model):
     event_type = models.CharField(max_length=64)
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    request_id = models.CharField(max_length=64, blank=True, null=True)
+    source = models.CharField(max_length=32, blank=True, null=True)

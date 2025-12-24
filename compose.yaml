@@ -50,5 +50,9 @@ services:
       redis:
         condition: service_healthy
     command: celery -A mission_intake worker --loglevel=info
+  solr:
+    image: solr:9-slim
+    ports:
+      - "8983:8983"
 volumes:
   postgres_data:
