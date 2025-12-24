@@ -54,5 +54,8 @@ services:
     image: solr:9-slim
     ports:
       - "8983:8983"
+    volumes:
+      - solr_data:/var/solr
 volumes:
   postgres_data:
+  solr_data:
