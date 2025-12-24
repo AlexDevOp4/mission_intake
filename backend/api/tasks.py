@@ -1,4 +1,6 @@
 import uuid
+import os
+import requests
 from celery import shared_task
 
 
@@ -24,6 +26,8 @@ def index_audit_log(audit_log_id):
     from api.models import AuditLog
 
     audit_log = AuditLog.objects.get(id=audit_log_id)
+    SOLR_URL = os.getenv("SOLR_URL", "http://solr:8983/solr/audit_logs")
+
     document = {
         "id": audit_log_id,
         "event_type": audit_log.event_type,
@@ -32,3 +36,13 @@ def index_audit_log(audit_log_id):
         "source": audit_log.source,
         "created_at": audit_log.created_at.isoformat(),
     }
+
+    try:
+        response = requests.post(SOLR_URL, json=[document])
+
+        response.raise_for_status()
+
+        print("Document successfully indexed and commited")
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"An error occured: {e}")
