@@ -1,6 +1,8 @@
 import uuid
 import os
 import requests
+from requests.exceptions import RequestException
+
 from celery import shared_task
 
 
@@ -21,7 +23,13 @@ def audit_log(event_type, message, request_id, source):
     index_audit_log.delay(new_audit_log.id)
 
 
-@shared_task(name="api.tasks.index_audit_log")
+@shared_task(
+    name="api.tasks.index_audit_log",
+    autoretry_for=(RequestException,),
+    max_retries=7,
+    retry_backoff=True,
+    retry_jitter=True,
+)
 def index_audit_log(audit_log_id):
     from api.models import AuditLog
 
@@ -38,12 +46,6 @@ def index_audit_log(audit_log_id):
         "created_at": audit_log.created_at.isoformat(),
     }
 
-    try:
-        response = requests.post(SOLR_URL, json=[document])
-
-        response.raise_for_status()
-
-        print("Document successfully indexed and commited")
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"An error occured: {e}")
+    response = requests.post(SOLR_URL, json=[document])
+    response.raise_for_status()
+    return response.json()
