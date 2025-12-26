@@ -10,7 +10,7 @@ services:
     working_dir: /app/backend
     ports:
       - "8000:8000"
-    command: sleep infinity
+    command: python manage.py runserver 0.0.0.0:8000
   db:
     image: postgres:16
     env_file:
