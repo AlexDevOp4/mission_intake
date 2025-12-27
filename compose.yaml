@@ -22,8 +22,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
   redis:
@@ -54,8 +52,6 @@ services:
     image: solr:9-slim
     env_file:
       - .env.local
-    ports:
-      - "8983:8983"
     volumes:
       - solr_data:/var/solr
 volumes:
