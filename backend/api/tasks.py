@@ -1,9 +1,12 @@
 import uuid
 import os
 import requests
-from requests.exceptions import RequestException
+import logging
 
+from requests.exceptions import RequestException
 from celery import shared_task
+
+logger = logging.getLogger(__name__)
 
 
 @shared_task(name="api.tasks.log_task")
@@ -15,6 +18,8 @@ def log_task():
 @shared_task(name="api.tasks.audit_log")
 def audit_log(event_type, message, request_id, source):
     from api.models import AuditLog
+    
+    logger.info("audit_log_created", extra={"request_id": request_id})
 
     new_audit_log = AuditLog.objects.create(
         event_type=event_type, message=message, request_id=request_id, source=source
@@ -35,6 +40,7 @@ def index_audit_log(audit_log_id):
 
     # Made audit_log the id of the Audit so there will be no duplicate, stable and deterministic.
     audit_log = AuditLog.objects.get(id=audit_log_id)
+    logger.info("audit_log_indexed", extra={"audit_log.request_id": audit_log.request_id})
     SOLR_URL = os.getenv("SOLR_URL", "http://solr:8983/solr/audit_logs")
     print(f"Indexing audit_log_id={audit_log_id} into Solr")
     document = {

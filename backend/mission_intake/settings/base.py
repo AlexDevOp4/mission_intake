@@ -121,3 +121,23 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CELERY_BROKER_URL = "redis://redis:6379/0"
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "default" : {
+            "format": "%(asctime)s %(levelname)s %(name)s %(messages)s [request_id=%(request_ids)s] "
+        },
+    },
+    "handlers": {
+        "console" : {
+            "class" : "logging.StreamHandler",
+            "formatter": "default",
+        },
+    },
+    "root" : {
+        "handlers": ["console"],
+        "level": "INFO"
+    }
+}
