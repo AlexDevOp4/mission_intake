@@ -20,6 +20,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/mission-intake
+            cd ~/mission_intake
             ./deploy.sh
 
