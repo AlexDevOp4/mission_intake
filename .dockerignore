@@ -1,0 +1,94 @@
+# ----------------------------------
+# Git & VCS
+# ----------------------------------
+.git
+.gitignore
+.gitattributes
+
+# ----------------------------------
+# Python
+# ----------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.Python
+.pytest_cache/
+.mypy_cache/
+.pyre/
+.coverage
+.coverage.*
+htmlcov/
+dist/
+build/
+.eggs/
+*.egg-info/
+
+# ----------------------------------
+# Django
+# ----------------------------------
+*.log
+local_settings.py
+db.sqlite3
+media/
+staticfiles/
+
+# ----------------------------------
+# Virtual environments
+# ----------------------------------
+.env
+.env.*
+venv/
+.venv/
+env/
+ENV/
+
+# ----------------------------------
+# IDEs & Editors
+# ----------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ----------------------------------
+# OS files
+# ----------------------------------
+.DS_Store
+Thumbs.db
+
+# ----------------------------------
+# Node / Frontend (if applicable)
+# ----------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ----------------------------------
+# Kafka
+# ----------------------------------
+kafka/data/
+kafka/logs/
+kafka/*.log
+
+# ----------------------------------
+# Redis
+# ----------------------------------
+redis/data/
+redis/dump.rdb
+redis/appendonly.aof
+
+# ----------------------------------
+# Solr
+# ----------------------------------
+solr/data/
+solr/logs/
+solr/server/logs/
+
+# ----------------------------------
+# Docker artifacts
+# ----------------------------------
+docker-compose*.yml
