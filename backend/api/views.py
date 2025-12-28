@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 def health_check(request):
     uuid_object = uuid.uuid4()
     request_id = str(uuid_object)
-    logger.info("helath_check_called", extra={"request_id" : request_id})
+    logger.info("health_check_called", extra={"request_id" : request_id})
     
     source = "web"
     audit_log.delay(

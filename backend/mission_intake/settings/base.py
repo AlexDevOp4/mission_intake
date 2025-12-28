@@ -122,22 +122,33 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CELERY_BROKER_URL = "redis://redis:6379/0"
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
+
+class RequestIdFilter:
+    def filter(self, record):
+        if not hasattr(record, "request_id"):
+            record.request_id = "-"
+        return True
+
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "default" : {
-            "format": "%(asctime)s %(levelname)s %(name)s %(messages)s [request_id=%(request_ids)s] "
+        "default": {
+            "format": "%(asctime)s %(levelname)s %(name)s %(message)s [request_id=%(request_id)s]",
         },
     },
     "handlers": {
-        "console" : {
-            "class" : "logging.StreamHandler",
+        "console": {
+            "class": "logging.StreamHandler",
             "formatter": "default",
+            "filters": ["request_id"],
         },
     },
-    "root" : {
-        "handlers": ["console"],
-        "level": "INFO"
-    }
+    "filters": {
+        "request_id": {
+            "()": RequestIdFilter,
+        }
+    },
+    "root": {"handlers": ["console"], "level": "INFO"},
 }
