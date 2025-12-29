@@ -5,8 +5,6 @@ services:
       dockerfile: docker/django/Dockerfile
     env_file:
       - .env.local
-    volumes:
-      - .:/app
     working_dir: /app/backend
     ports:
       - "8000:8000"
@@ -38,8 +36,6 @@ services:
       dockerfile: docker/django/Dockerfile
     env_file:
       - .env.local
-    volumes:
-      - .:/app
     working_dir: /app/backend
     depends_on:
       db:

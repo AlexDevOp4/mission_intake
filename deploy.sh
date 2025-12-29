@@ -10,6 +10,6 @@ echo "Building containers"
 docker compose build
 
 echo "Restarting services"
-docker compose up -d
+docker compose up -d --build
 
 echo "Deployment finished"
