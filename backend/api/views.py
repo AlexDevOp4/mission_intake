@@ -2,7 +2,7 @@ import logging
 import uuid
 from django.http import JsonResponse
 from .tasks import audit_log
-from core.health.database import check_database_health
+from api.health.database import check_database_health
 
 logger = logging.getLogger(__name__)
 
