@@ -6,6 +6,12 @@ services:
     env_file:
       - .env.local
     working_dir: /app/backend
+    healthcheck:
+      test: ["CMD", "curl -f http://127.0.0.1:8000/api/health/ || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
     ports:
       - "8000:8000"
   db:
