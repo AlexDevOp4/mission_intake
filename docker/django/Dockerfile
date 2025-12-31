@@ -10,6 +10,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
+# Create the staticfiles directory, and change ownership to appuser.
+RUN mkdir -p /app/backend/mission_intake/staticfiles \
+    && chown -R appuser:appuser /app/backend/mission_intake/staticfiles
+
 # Create non-root user
 RUN useradd -m -r appuser
 
