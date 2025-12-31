@@ -12,6 +12,10 @@ services:
       timeout: 3s
       retries: 5
       start_period: 30s
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /tmp/cache:size=64m
     ports:
       - "8000:8000"
   db:
@@ -49,6 +53,10 @@ services:
       redis:
         condition: service_healthy
     command: celery -A mission_intake worker --loglevel=info
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /tmp/cache:size-64m
   solr:
     image: solr:9-slim
     env_file:
