@@ -3,8 +3,8 @@ services:
     build:
       context: .
       dockerfile: docker/django/Dockerfile
-    env_file:
-      - .env.local
+    # env_file:
+    #   - .env.local
     working_dir: /app/backend
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://127.0.0.1:8000/api/health/ || exit 1"]
@@ -22,8 +22,8 @@ services:
       - "8000:8000"
   db:
     image: postgres:16
-    env_file:
-      - .env.local
+    # env_file:
+    #   - .env.local
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
@@ -46,8 +46,8 @@ services:
     build:
       context: .
       dockerfile: docker/django/Dockerfile
-    env_file:
-      - .env.local
+    # env_file:
+    #   - .env.local
     working_dir: /app/backend
     depends_on:
       db:
@@ -61,8 +61,8 @@ services:
       - /tmp/cache:size=64m
   solr:
     image: solr:9-slim
-    env_file:
-      - .env.local
+    # env_file:
+    #   - .env.local
     volumes:
       - solr_data:/var/solr
 volumes:
