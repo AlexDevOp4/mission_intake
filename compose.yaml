@@ -13,6 +13,8 @@ services:
       retries: 5
       start_period: 30s
     read_only: true
+    volumes:
+      - static_files:/app/backend/mission_intake/staticfiles
     tmpfs:
       - /tmp
       - /tmp/cache:size=64m
@@ -66,3 +68,4 @@ services:
 volumes:
   postgres_data:
   solr_data:
+  static_files:
