@@ -2,7 +2,7 @@
 set -e
 
 echo "Starting deployment..."
-export AWS_DEFAULT_REGION=us-east-1
+export AWS_DEFAULT_REGION="us-east-1"
 
 get_ssm() {
     local name="$1"
