@@ -29,6 +29,14 @@ echo "Building containers"
 docker compose build
 
 echo "Restarting services"
-docker compose up -d --build
+env \
+  POSTGRES_DB="$POSTGRES_DB" \
+  POSTGRES_USER="$POSTGRES_USER" \
+  POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
+  POSTGRES_PORT="$POSTGRES_PORT" \
+  ALLOWED_HOSTS="$ALLOWED_HOSTS" \
+  DJANGO_SECRET_KEY="$DJANGO_SECRET_KEY" \
+  SOLR_URL="$SOLR_URL" \
+  docker compose up -d --build
 
 echo "Deployment finished"
